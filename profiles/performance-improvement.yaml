@@ -1,0 +1,12 @@
+profile: performance-improvement
+summary: Latency, throughput or resource-cost improvement.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: performance
+test_modes: [regression, unit]
+context_requirements+: [performance-baseline, hot-paths]
+dor_extra: [baseline measured and recorded BEFORE changes, target defined (number, not adjective)]
+dod_extra: [after-measurement recorded with same methodology, no behavior change (regression clean)]
+evidence_expected+: [before-after-measurements]
+token_budget: M

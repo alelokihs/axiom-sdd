@@ -1,0 +1,11 @@
+profile: observability-change
+summary: Logging, metrics, tracing, alerting.
+extends: _defaults
+workflow: fast
+change_budget: bounded
+implementer_specialization: observability
+test_modes: [unit]
+context_requirements+: [observability-conventions, data-classification]
+dor_extra: [the question this instrumentation answers is written in the spec]
+dod_extra: [no secret/PII/sensitive payload in any new log or label]
+token_budget: S

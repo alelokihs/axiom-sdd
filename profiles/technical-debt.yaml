@@ -1,0 +1,11 @@
+profile: technical-debt
+summary: Planned cleanup with small, explicit behavior latitude.
+extends: _defaults
+workflow: standard
+change_budget: moderate
+implementer_specialization: refactoring
+test_modes: [characterization, unit]
+context_requirements+: [debt-inventory-entry, blast-radius]
+dor_extra: [the debt entry being paid is identified (from evidence packs or backlog), any allowed behavior change is listed explicitly]
+dod_extra: [debt entry closed or updated, no NEW unrecorded debt introduced]
+token_budget: M

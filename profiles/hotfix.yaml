@@ -1,0 +1,12 @@
+profile: hotfix
+summary: Production-urgent minimal fix. Speed with a paper trail, never speed instead of one.
+extends: _defaults
+workflow: hotfix
+change_budget: minimal
+implementer_specialization: bugfix
+test_modes: [regression]
+readiness_threshold: 60        # compressed single-doc spec; floor stays 60
+context_requirements: [defect-reproduction, relevant-files]
+dod_extra: [follow-up spec scheduled for anything deferred (workflow requires it)]
+evidence_expected+: [root-cause, followup-reference]
+token_budget: S

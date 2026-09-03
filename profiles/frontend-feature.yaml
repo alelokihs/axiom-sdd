@@ -1,0 +1,11 @@
+profile: frontend-feature
+summary: UI-side feature work.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: frontend
+test_modes: [unit, e2e]
+context_requirements+: [design-reference, component-conventions, existing-contracts]
+dor_extra: [states defined (loading/empty/error/success), API contract it consumes is pinned]
+dod_extra: [accessibility basics verified (labels, focus, contrast per project standard)]
+token_budget: M

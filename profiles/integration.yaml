@@ -1,0 +1,14 @@
+profile: integration
+summary: Connect this system to another system or service.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: integration
+test_modes: [contract, integration, unit]
+agents+: [security]
+gates+: [security-clear]
+context_requirements+: [external-contract, auth-flow, error-taxonomy]
+dor_extra: [external contract pinned (version/URL/schema), failure modes of the remote defined (timeout/5xx/schema drift)]
+dod_extra: [contract tests cover the boundary both ways, no credential in code or fixture]
+evidence_expected+: [contract-test-results]
+token_budget: M

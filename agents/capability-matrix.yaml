@@ -1,0 +1,63 @@
+# Agent Capability Matrix — least privilege, machine-readable.
+# true = allowed · false = forbidden · "gated" = allowed only behind the named condition.
+# On conflict with an agent .md file, THIS FILE WINS.
+
+defaults: &none
+  can_read_code: true          # everyone may read (within their context pack)
+  can_write_code: false
+  can_modify_specs: false
+  can_run_tests: false
+  can_modify_tests: false
+  can_modify_architecture: false   # guardrails, boundaries, ADR approval
+  can_create_decision: false       # decision-log entries / draft ADRs
+  can_commit: false
+  can_push: false
+  can_merge: false
+
+agents:
+  bootstrap:
+    <<: *none
+    can_modify_specs: true         # creates the initial spec draft
+    can_create_decision: true
+    can_write_sdd_config: true     # sdd/sdd.yaml, AGENTS.md, adapter files — never app code
+  requirement-analyst:
+    <<: *none
+    can_modify_specs: true         # requirement sections + open questions only
+  spec-writer:
+    <<: *none
+    can_modify_specs: true
+  architect:
+    <<: *none
+    can_modify_specs: gated:plan-and-architecture-sections-only
+    can_modify_architecture: true
+    can_create_decision: true
+  codebase-analyst:
+    <<: *none
+    can_modify_specs: gated:context-pack-and-findings-only
+  implementer:
+    <<: *none
+    can_write_code: true
+    can_run_tests: true
+    can_modify_tests: gated:tests-for-own-tasks-only
+    can_create_decision: true      # implementation-level decisions
+  test-engineer:
+    <<: *none
+    can_write_code: gated:test-code-and-fixtures-only
+    can_run_tests: true
+    can_modify_tests: true
+  reviewer:
+    <<: *none
+    can_run_tests: true            # to verify claims — read-only otherwise; NEVER edits anything
+  security:
+    <<: *none
+    can_run_tests: true
+    can_write_code: gated:only-in-security-fix-profile-as-implementer
+  docs:
+    <<: *none
+    can_modify_specs: gated:formatting-and-docs-sections-only
+    can_create_decision: true      # records decisions others made; doesn't make them
+  gitflow:
+    <<: *none
+    can_commit: true
+    can_push: gated:human-authorization
+    can_merge: false               # always human

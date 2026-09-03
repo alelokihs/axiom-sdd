@@ -1,0 +1,12 @@
+profile: bugfix
+summary: Defect fix, normal urgency. Reproduce -> root cause -> regression test -> minimal fix.
+extends: _defaults
+workflow: fast
+change_budget: minimal
+implementer_specialization: bugfix
+test_modes: [regression, unit]
+context_requirements: [active-spec, defect-reproduction, relevant-files, related-tests]
+dor_extra: [reproduction confirmed or explicitly impossible (state why), root cause hypothesis written]
+dod_extra: [regression test fails before the fix and passes after]
+evidence_expected+: [root-cause, reproduction-steps]
+token_budget: S

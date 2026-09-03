@@ -1,0 +1,12 @@
+profile: documentation-change
+summary: Documentation-only work.
+extends: _defaults
+workflow: fast
+change_budget: minimal
+agents: [spec-writer, docs, reviewer, gitflow]
+test_modes: []
+gates: [spec-ready, acceptance-criteria, evidence-complete, gitflow-clean]
+context_requirements: [active-spec, affected-docs, evidence-of-described-behavior]
+dor_extra: [every claim to be documented has a source (code, evidence, decision)]
+dod_extra: [no documented behavior without evidence, links resolve]
+token_budget: S

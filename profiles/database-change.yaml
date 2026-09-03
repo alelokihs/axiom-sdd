@@ -1,0 +1,13 @@
+profile: database-change
+summary: Schema, query, index or storage change.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: database
+test_modes: [unit, integration]
+readiness_threshold: 85
+context_requirements+: [data-shapes, existing-migrations, consumers-of-schema]
+dor_extra: [migration is ordered and reversible (or irreversibility is declared and accepted), consumers of the changed schema listed]
+dod_extra: [forward and rollback migrations both exist and ran locally, no data-loss path without human sign-off]
+evidence_expected+: [migration-run-output, rollback-verification]
+token_budget: M

@@ -1,0 +1,22 @@
+# Devin Playbook — SDD cycle for {project}
+<!-- Paste this playbook into the Devin app (Playbooks). In stealth git-mode this file is
+     NOT committed, so Devin cannot read it from the repo — the app is the delivery path.
+     Also consider adding the Locks below as Knowledge entries. -->
+
+## Overview
+Run spec <NNN>-<slug> through the SDD lifecycle of this project.
+
+## Procedure
+1. If `sdd/` exists in the repo, follow `sdd/workflow.yaml` step by step; at each step assume
+   the agent role from `sdd/agents/<agent>.agent.md` (Mandatory Reading + Forbidden are binding).
+2. If `sdd/` does NOT exist in the clone (stealth mode), ask the user to provide the spec,
+   plan and task authorization inline before writing any code.
+3. Checkpoint after every gate: post the gate name + verdict + evidence delta.
+4. End only at evidence-complete + prepared gitflow. Partial work is reported partial.
+
+## What's needed
+Repo access · the spec id · explicit task authorization (no task list = no authorization).
+
+## Forbidden
+{locks}
+- Never merge or push without human confirmation.

@@ -1,0 +1,26 @@
+# Base profile. Every profile extends this and declares only deltas.
+profile: _defaults
+workflow: standard
+change_budget: moderate
+implementer_specialization: feature
+test_modes: [unit]
+agents:
+  - requirement-analyst
+  - spec-writer
+  - codebase-analyst
+  - implementer
+  - test-engineer
+  - reviewer
+  - gitflow
+gates:
+  - spec-ready
+  - definition-of-ready
+  - tests-passing
+  - acceptance-criteria
+  - spec-drift-none
+  - evidence-complete
+  - gitflow-clean
+readiness_threshold: 80
+context_requirements: [active-spec, guardrails, relevant-files, related-tests, conventions]
+evidence_expected: [changed-files, commands, tests, ac-mapping, drift-verdict, assumptions]
+token_budget: M

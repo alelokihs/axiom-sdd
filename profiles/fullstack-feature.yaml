@@ -1,0 +1,12 @@
+profile: fullstack-feature
+summary: Feature crossing frontend and backend.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: feature
+test_modes: [unit, contract, e2e]
+context_requirements+: [existing-contracts, layering-rules, component-conventions]
+dor_extra: [the boundary contract is written FIRST and both sides implement against it]
+dod_extra: [contract test proves both sides speak the same schema]
+evidence_expected+: [contract-test-results]
+token_budget: L

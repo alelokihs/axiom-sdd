@@ -1,0 +1,14 @@
+profile: incident-remediation
+summary: Production incident — immediate remediation plus prevention trail.
+extends: _defaults
+workflow: hotfix
+change_budget: minimal
+implementer_specialization: bugfix
+test_modes: [regression]
+agents+: [security]
+readiness_threshold: 60
+context_requirements: [incident-timeline, defect-reproduction, relevant-files, blast-radius]
+dor_extra: [impact and current mitigation state written down first, root cause hypothesis (may be provisional)]
+dod_extra: [regression test pins the failure mode, follow-up spec created for root-cause/prevention work]
+evidence_expected+: [root-cause, incident-timeline, followup-reference]
+token_budget: S

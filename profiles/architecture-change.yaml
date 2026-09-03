@@ -1,0 +1,15 @@
+profile: architecture-change
+summary: Change boundaries, layering, or a durable structural decision.
+extends: _defaults
+workflow: full
+change_budget: architectural
+implementer_specialization: refactoring
+test_modes: [characterization, regression, integration]
+agents+: [architect, docs]
+gates+: [architecture-compliant, plan-approved]
+readiness_threshold: 85
+context_requirements+: [current-architecture, guardrails-full, affected-contracts]
+dor_extra: [ADR drafted and approved BEFORE implementation, migration path for existing code defined]
+dod_extra: [guardrails updated to reflect the new invariants, ADR finalized]
+evidence_expected+: [decisions, before-after-structure-map]
+token_budget: L

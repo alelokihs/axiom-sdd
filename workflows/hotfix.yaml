@@ -1,0 +1,16 @@
+workflow: hotfix
+description: Urgent minimal fix. One compact document, drift-lite review, mandatory follow-up.
+spec_form: single-doc            # SPEC+PLAN+TASKS+EVIDENCE skeleton in one file
+steps:
+  - agent: spec-writer
+    mode: write+validate         # readiness threshold from profile (compressed DoR)
+    gate: spec-ready
+  - agent: implementer
+    mode: bugfix                 # reproduce -> regression test -> minimal fix
+    gate: definition-of-ready
+  - agent: reviewer
+    mode: compliance+drift
+    gate: spec-drift-none
+  - agent: gitflow
+    gate: evidence-complete
+followup_required: true          # schedule a real spec for cleanup/root-cause if any debt remains

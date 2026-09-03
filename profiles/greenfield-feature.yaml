@@ -1,0 +1,12 @@
+profile: greenfield-feature
+summary: New capability in a new or nearly-empty codebase.
+extends: _defaults
+workflow: standard          # first feature of a new project: use full (architect designs)
+change_budget: moderate
+agents+: [architect, docs]
+gates+: [architecture-compliant]
+context_requirements: [active-spec, guardrails, conventions]   # little code to discover yet
+dor_extra: [initial guardrails exist (architect design mode ran at least once)]
+dod_extra: [no speculative structure beyond current requirements (anti-overengineering)]
+evidence_expected+: [decisions]
+token_budget: M

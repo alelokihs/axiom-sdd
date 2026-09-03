@@ -1,0 +1,31 @@
+workflow: standard
+description: Default pipeline for normal features and bounded changes.
+spec_form: full
+steps:
+  - agent: requirement-analyst
+  - agent: codebase-analyst
+    mode: legacy
+    optional: legacy-context-required
+  - agent: spec-writer
+    mode: write+validate
+    gate: spec-ready
+  - agent: architect
+    mode: assess
+    optional: architecture-impact-flagged
+  - agent: spec-writer            # PLAN + TASKS in one pass
+    mode: write
+  - agent: codebase-analyst
+    mode: context-pack
+  - agent: implementer
+    gate: definition-of-ready
+  - agent: test-engineer
+    gate: tests-passing
+  - agent: security
+    optional: profile-requires-security
+    gate: security-clear
+  - agent: reviewer
+    mode: code+compliance+drift
+    gate: spec-drift-none
+  - agent: gitflow
+    gate: evidence-complete
+followup_required: false

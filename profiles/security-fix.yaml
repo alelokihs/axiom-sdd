@@ -1,0 +1,14 @@
+profile: security-fix
+summary: Fix a vulnerability or harden a surface.
+extends: _defaults
+workflow: fast
+change_budget: minimal
+implementer_specialization: bugfix
+test_modes: [regression, unit]
+agents+: [security]
+gates+: [security-clear]
+context_requirements+: [vulnerability-detail, auth-flow, data-classification]
+dor_extra: [exploit path understood and written down (privately), disclosure constraints identified]
+dod_extra: [security agent verified the fix closes the path, regression test proves it (without weaponizing the repo)]
+evidence_expected+: [security-verification]
+token_budget: S

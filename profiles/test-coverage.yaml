@@ -1,0 +1,12 @@
+profile: test-coverage
+summary: Add tests without touching production code.
+extends: _defaults
+workflow: fast
+change_budget: minimal
+test_modes: [unit, integration, characterization]
+agents: [spec-writer, codebase-analyst, test-engineer, reviewer, gitflow]
+context_requirements: [active-spec, coverage-gaps, related-tests, conventions]
+dor_extra: [target areas ranked by risk (not by ease)]
+dod_extra: [production code untouched (diff proves it), flaky tests not introduced (suite ran twice)]
+evidence_expected+: [coverage-delta]
+token_budget: S

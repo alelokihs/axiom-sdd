@@ -1,0 +1,18 @@
+workflow: fast
+description: Small bounded changes. SPEC absorbs PLAN and TASKS (compact form).
+spec_form: compact
+steps:
+  - agent: requirement-analyst    # may collapse into spec-writer for trivial input
+  - agent: spec-writer
+    mode: write+validate
+    gate: spec-ready
+  - agent: codebase-analyst
+    mode: context-pack
+  - agent: implementer            # writes its own tests in this workflow
+    gate: definition-of-ready
+  - agent: reviewer
+    mode: code+compliance+drift
+    gate: spec-drift-none
+  - agent: gitflow
+    gate: evidence-complete
+followup_required: false

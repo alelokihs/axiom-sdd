@@ -1,0 +1,465 @@
+{
+  "version": "2.0.0",
+  "_comment": "Declarative registry: tool -> detection signals -> shims. Adding an IDE/agent = adding an entry here (and a template if it needs a new shim kind). No code changes.",
+  "tools": [
+    {
+      "id": "copilot-vscode",
+      "name": "GitHub Copilot (VS Code)",
+      "kind": "ide-plugin",
+      "detect": {
+        "windows": [
+          "~/.vscode/extensions",
+          "%APPDATA%/Code/User/settings.json"
+        ],
+        "darwin": [
+          "~/.vscode/extensions",
+          "~/Library/Application Support/Code/User/settings.json"
+        ],
+        "linux": [
+          "~/.vscode/extensions",
+          "~/.config/Code/User/settings.json"
+        ]
+      },
+      "version_glob": {
+        "dir": "~/.vscode/extensions",
+        "pattern": "github.copilot-*"
+      },
+      "reads": [
+        "AGENTS.md",
+        ".github/copilot-instructions.md",
+        ".github/instructions/*.instructions.md",
+        ".github/prompts/*.prompt.md",
+        ".github/agents/*.agent.md",
+        "CLAUDE.md"
+      ],
+      "shims": [
+        "agents-md",
+        "copilot-instructions",
+        "vscode-prompts",
+        "vscode-agents"
+      ],
+      "hello": "Abra o Copilot Chat no VS Code (modo Agent) e digite: /sdd-init"
+    },
+    {
+      "id": "copilot-jetbrains",
+      "name": "GitHub Copilot (JetBrains/IntelliJ)",
+      "kind": "ide-plugin",
+      "detect": {
+        "windows": [
+          "%APPDATA%/JetBrains",
+          "%LOCALAPPDATA%/github-copilot"
+        ],
+        "darwin": [
+          "~/Library/Application Support/JetBrains",
+          "~/.config/github-copilot"
+        ],
+        "linux": [
+          "~/.config/JetBrains",
+          "~/.config/github-copilot"
+        ]
+      },
+      "version_glob": {
+        "dir": "%APPDATA%/JetBrains",
+        "pattern": "*/plugins/github-copilot-intellij"
+      },
+      "reads": [
+        "AGENTS.md (plugin >= 2026-03)",
+        "CLAUDE.md (plugin >= 2026-03)",
+        ".github/copilot-instructions.md",
+        "global-copilot-instructions.md"
+      ],
+      "notes": "No repo-level prompt files yet; SDD command vocabulary travels in AGENTS.md. Older plugins fall back to .github/copilot-instructions.md.",
+      "shims": [
+        "agents-md",
+        "copilot-instructions"
+      ],
+      "global_shims": [
+        {
+          "windows": "%LOCALAPPDATA%/github-copilot/intellij/global-copilot-instructions.md",
+          "darwin": "~/.config/github-copilot/intellij/global-copilot-instructions.md",
+          "linux": "~/.config/github-copilot/intellij/global-copilot-instructions.md",
+          "template": "global-pointer.md.tmpl",
+          "merge": "managed-block"
+        }
+      ],
+      "hello": "Abra o Copilot Chat no IntelliJ e digite: SDD: init"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "kind": "cli",
+      "detect": {
+        "windows": [
+          "~/.claude"
+        ],
+        "darwin": [
+          "~/.claude"
+        ],
+        "linux": [
+          "~/.claude"
+        ]
+      },
+      "which": "claude",
+      "reads": [
+        "CLAUDE.md",
+        ".claude/CLAUDE.md",
+        "CLAUDE.local.md",
+        ".claude/rules/*.md",
+        ".claude/commands/*.md",
+        ".claude/agents/*.md",
+        ".claude/skills/*/SKILL.md"
+      ],
+      "shims": [
+        "agents-md",
+        "claude-md",
+        "claude-commands",
+        "claude-agents"
+      ],
+      "global_shims": [
+        {
+          "windows": "~/.claude/CLAUDE.md",
+          "darwin": "~/.claude/CLAUDE.md",
+          "linux": "~/.claude/CLAUDE.md",
+          "template": "global-pointer.md.tmpl",
+          "merge": "managed-block"
+        }
+      ],
+      "hello": "No terminal, dentro do projeto: claude  e depois  /sdd-init"
+    },
+    {
+      "id": "codex",
+      "name": "OpenAI Codex (CLI / IDE extension)",
+      "kind": "cli",
+      "detect": {
+        "windows": [
+          "~/.codex"
+        ],
+        "darwin": [
+          "~/.codex"
+        ],
+        "linux": [
+          "~/.codex"
+        ]
+      },
+      "which": "codex",
+      "reads": [
+        "AGENTS.md (global ~/.codex -> root -> nested, 32KiB cap)",
+        ".codex/skills/*/SKILL.md"
+      ],
+      "shims": [
+        "agents-md",
+        "codex-skills"
+      ],
+      "global_shims": [
+        {
+          "windows": "~/.codex/AGENTS.md",
+          "darwin": "~/.codex/AGENTS.md",
+          "linux": "~/.codex/AGENTS.md",
+          "template": "global-pointer.md.tmpl",
+          "merge": "managed-block"
+        }
+      ],
+      "hello": "No terminal, dentro do projeto: codex \"SDD: init\""
+    },
+    {
+      "id": "devin",
+      "name": "Devin (cloud)",
+      "kind": "cloud",
+      "detect": {},
+      "always_offer": true,
+      "reads": [
+        "AGENTS.md (from the git REMOTE - stealth-mode files never reach it)",
+        "Knowledge + Playbooks (configured in the Devin app)"
+      ],
+      "notes": "No local footprint. In stealth git-mode, SDD reaches Devin via the generated playbook text pasted into the app.",
+      "shims": [
+        "devin-playbook"
+      ],
+      "hello": "Cole sdd/devin-playbook.md como Playbook no app do Devin e peca: SDD: init"
+    }
+  ],
+  "shims": {
+    "agents-md": {
+      "path": "AGENTS.md",
+      "template": "AGENTS.md.tmpl",
+      "merge": "managed-block"
+    },
+    "claude-md": {
+      "path": "CLAUDE.md",
+      "template": "CLAUDE.md.tmpl",
+      "merge": "managed-block"
+    },
+    "copilot-instructions": {
+      "path": ".github/copilot-instructions.md",
+      "template": "copilot-instructions.md.tmpl",
+      "merge": "managed-block"
+    },
+    "vscode-prompts": {
+      "dir": ".github/prompts",
+      "render": "vscode-prompt",
+      "filename": "sdd-{id}.prompt.md"
+    },
+    "vscode-agents": {
+      "dir": ".github/agents",
+      "render": "vscode-agent",
+      "filename": "sdd-{id}.agent.md",
+      "source": "agents"
+    },
+    "claude-agents": {
+      "dir": ".claude/agents",
+      "render": "claude-agent",
+      "filename": "sdd-{id}.md",
+      "source": "agents"
+    },
+    "claude-commands": {
+      "dir": ".claude/commands",
+      "render": "claude-command",
+      "filename": "sdd-{id}.md"
+    },
+    "codex-skills": {
+      "dir": ".codex/skills",
+      "render": "codex-skill",
+      "filename": "sdd-{id}/SKILL.md"
+    },
+    "devin-playbook": {
+      "path": "sdd/devin-playbook.md",
+      "template": "devin-playbook.md.tmpl",
+      "merge": "overwrite-if-managed"
+    }
+  },
+  "commands": [
+    {
+      "id": "init",
+      "description": "Initialize SDD in this project (interactive)",
+      "inputs": [
+        {
+          "name": "template",
+          "hint": "Path or URL of the template-sdd framework"
+        },
+        {
+          "name": "source",
+          "hint": "Jira issue text or a short description of the change"
+        }
+      ],
+      "body": [
+        "Initialize SDD.",
+        "Framework: {template}",
+        "Source:",
+        "{source}",
+        "",
+        "Before phase 1, CONFIRM with the user: (a) where to read the framework template,",
+        "(b) where to install (project root vs subdirectory), (c) which runtimes to generate",
+        "(default: detected by axiom-sdd doctor, see sdd/environment.json if present),",
+        "(d) git mode: stealth (.git/info/exclude, nothing committed) or team (committed).",
+        "Then follow the template's sdd/bootstrap/BOOTSTRAP.md phases exactly."
+      ]
+    },
+    {
+      "id": "spec",
+      "description": "Refine a spec until Readiness >= 80",
+      "inputs": [
+        {
+          "name": "spec",
+          "hint": "Spec id, e.g. 001"
+        }
+      ],
+      "body": [
+        "Act as the spec-writer agent (sdd/agents/spec-writer.agent.md — read it fully first).",
+        "Refine spec {spec}: close UNKNOWN / ASSUMPTION / NEEDS_CONFIRMATION items, re-score",
+        "readiness (sdd/core/spec-readiness.md). Never invent facts; ask or label."
+      ]
+    },
+    {
+      "id": "implement",
+      "description": "Implement ONLY explicitly authorized tasks",
+      "inputs": [
+        {
+          "name": "spec",
+          "hint": "Spec id, e.g. 001"
+        },
+        {
+          "name": "tasks",
+          "hint": "Task list, e.g. TASK-001, TASK-002"
+        }
+      ],
+      "body": [
+        "Act as the implementer agent (sdd/agents/implementer.agent.md — read it fully first).",
+        "Spec: {spec} · Authorized tasks: {tasks}.",
+        "Locks: no explicit task list = no authorization · DoR must pass · stay inside the",
+        "change budget · divergence is recorded in EVIDENCE.md, never silently fixed · no secrets."
+      ]
+    },
+    {
+      "id": "review",
+      "description": "Review implementation against the spec",
+      "inputs": [
+        {
+          "name": "spec",
+          "hint": "Spec id, e.g. 001"
+        }
+      ],
+      "body": [
+        "Act as the reviewer agent (sdd/agents/reviewer.agent.md — read it fully first).",
+        "Review spec {spec}: diff vs SPEC/PLAN/TASKS, gates per sdd/core/gates.md.",
+        "Divergences are REPORTED with evidence, never silently fixed."
+      ]
+    },
+    {
+      "id": "finish",
+      "description": "Drift check, evidence pack, gitflow",
+      "inputs": [
+        {
+          "name": "spec",
+          "hint": "Spec id, e.g. 001"
+        }
+      ],
+      "body": [
+        "Act per sdd/agents/gitflow.agent.md and sdd/core/spec-drift.md (read both fully).",
+        "Finish spec {spec}: run drift check, complete EVIDENCE.md, prepare gitflow.",
+        "No force-push, no merges — a human merges."
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "id": "spec-writer",
+      "description": "SDD spec-writer — turns requests into specs, scores readiness, never invents facts",
+      "body": [
+        "You are the SDD spec-writer for this repository.",
+        "Canonical behavior: sdd/agents/spec-writer.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/core/spec-readiness.md.",
+        "You write/refine specs under sdd/specs/ only. You NEVER write application code.",
+        "Gaps become UNKNOWN / ASSUMPTION / NEEDS_CONFIRMATION — never invented facts."
+      ]
+    },
+    {
+      "id": "implementer",
+      "description": "SDD implementer — implements ONLY explicitly authorized tasks, inside the change budget",
+      "body": [
+        "You are the SDD implementer for this repository.",
+        "Canonical behavior: sdd/agents/implementer.agent.md — read it FULLY before acting;",
+        "Mandatory Reading and Forbidden sections are binding.",
+        "No explicit task list = no authorization. DoR must pass. Stay inside the change budget.",
+        "Divergence is recorded in EVIDENCE.md, never silently fixed. No secrets."
+      ]
+    },
+    {
+      "id": "reviewer",
+      "description": "SDD reviewer — reviews diffs against spec/plan/gates; reports divergences, never fixes silently",
+      "body": [
+        "You are the SDD reviewer for this repository.",
+        "Canonical behavior: sdd/agents/reviewer.agent.md — read it FULLY before acting.",
+        "Review the diff against SPEC/PLAN/TASKS and the gates in sdd/core/gates.md.",
+        "Divergences are REPORTED with evidence, never silently fixed. You never write code."
+      ]
+    },
+    {
+      "id": "architect",
+      "description": "SDD architect — design decisions, guardrails and ADRs; no implementation",
+      "body": [
+        "You are the SDD architect for this repository.",
+        "Canonical behavior: sdd/agents/architect.agent.md — read it FULLY before acting.",
+        "You produce/update ADRs (sdd/decisions/) and guardrails (sdd/guardrails.md) only.",
+        "Anti-overengineering rule applies: design only what the current spec needs."
+      ]
+    },
+    {
+      "id": "bootstrap",
+      "description": "SDD bootstrap — initializes/repairs the sdd/ structure and config of this project",
+      "body": [
+        "You are the SDD bootstrap for this repository.",
+        "Canonical behavior: sdd/agents/bootstrap.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You set up sdd/sdd.yaml, guardrails and adapter entry files; you never write feature code.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "codebase-analyst",
+      "description": "SDD codebase-analyst — maps legacy code, blast radius and context packs",
+      "body": [
+        "You are the SDD codebase-analyst for this repository.",
+        "Canonical behavior: sdd/agents/codebase-analyst.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You produce analysis artifacts under sdd/specs/**; you never modify production code.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "docs",
+      "description": "SDD docs — keeps documentation in sync with specs and shipped changes",
+      "body": [
+        "You are the SDD docs for this repository.",
+        "Canonical behavior: sdd/agents/docs.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You update docs and changelogs traced to specs; you never invent undocumented behavior.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "gitflow",
+      "description": "SDD gitflow — branch, commit and PR discipline per sdd/gitflow.md",
+      "body": [
+        "You are the SDD gitflow for this repository.",
+        "Canonical behavior: sdd/agents/gitflow.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "Detect which agentic runtime you are (Claude/Copilot/Codex/Devin) and apply the commit trailer and branch rules from sdd/gitflow.md.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "requirement-analyst",
+      "description": "SDD requirement-analyst — turns raw requests/Jira into structured requirements",
+      "body": [
+        "You are the SDD requirement-analyst for this repository.",
+        "Canonical behavior: sdd/agents/requirement-analyst.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You clarify scope and acceptance criteria feeding the spec-writer; gaps become NEEDS_CONFIRMATION.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "security",
+      "description": "SDD security — reviews changes for security impact and secret hygiene",
+      "body": [
+        "You are the SDD security for this repository.",
+        "Canonical behavior: sdd/agents/security.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You run the security checklist from sdd/core and record findings as evidence; you block on criticals.",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    },
+    {
+      "id": "test-engineer",
+      "description": "SDD test-engineer — designs and implements the test modes the profile requires",
+      "body": [
+        "You are the SDD test-engineer for this repository.",
+        "Canonical behavior: sdd/agents/test-engineer.agent.md — read it FULLY before acting;",
+        "its Mandatory Reading and Forbidden sections are binding, plus sdd/agents/capability-matrix.yaml.",
+        "You implement the test_modes declared in sdd/profile.yaml (characterization first on legacy).",
+        "Never go from request straight to code; obey the locks in AGENTS.md (repo root)."
+      ]
+    }
+  ],
+  "locks": [
+    "Never go from request straight to code: SPEC -> PLAN/TASKS -> implementation -> review -> evidence.",
+    "Implement only explicitly authorized tasks, within the declared change budget.",
+    "Gaps become UNKNOWN / ASSUMPTION / NEEDS_CONFIRMATION — never invented facts.",
+    "Spec<->code divergence is recorded in EVIDENCE.md, never silently resolved.",
+    "No secrets in code/logs/prompts. No force-push, no merges, no destructive git.",
+    "Never raise your own change budget."
+  ],
+  "git_exclude": [
+    "/sdd/",
+    "/AGENTS.md",
+    "/CLAUDE.md",
+    "/CLAUDE.local.md",
+    "/.claude/",
+    "/.codex/",
+    "/.github/prompts/sdd-*.prompt.md",
+    "/.github/agents/sdd-*.agent.md",
+    "/.github/instructions/sdd-*.instructions.md",
+    "/.github/copilot-instructions.md"
+  ],
+  "git_exclude_if_generated": []
+}

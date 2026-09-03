@@ -1,0 +1,15 @@
+profile: migration
+summary: Move between platforms, frameworks, versions or data models.
+extends: _defaults
+workflow: full
+change_budget: architectural
+implementer_specialization: migration
+test_modes: [characterization, regression, integration]
+agents+: [architect, security, docs]
+gates+: [architecture-compliant, security-clear]
+readiness_threshold: 85
+context_requirements+: [legacy-analysis, existing-contracts, data-shapes, deployment-topology]
+dor_extra: [compatibility strategy written (big-bang vs incremental), rollback path defined, sequencing plan exists]
+dod_extra: [rollback path verified or explicitly waived by human, data integrity checks recorded]
+evidence_expected+: [rollback-verification, compatibility-matrix, decisions]
+token_budget: L

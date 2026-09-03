@@ -1,0 +1,14 @@
+profile: infrastructure-change
+summary: IaC change (Terraform/Kubernetes) with plan-before-apply discipline.
+extends: _defaults
+workflow: standard
+change_budget: minimal
+test_modes: [plan-diff, policy-check]
+agents+: [architect, security]
+gates+: [plan-reviewed]
+readiness_threshold: 85
+context_requirements+: [environment-map, blast-radius, state-impact]
+dor_extra: [terraform plan (or dry-run) output attached to the spec, affected environments and state files enumerated]
+dod_extra: [plan reviewed by a human before any apply, apply evidence per environment, no drift between code and remote state]
+evidence_expected+: [plan-output, apply-log]
+token_budget: M

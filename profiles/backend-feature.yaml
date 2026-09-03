@@ -1,0 +1,11 @@
+profile: backend-feature
+summary: Server-side feature work.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: backend
+test_modes: [unit, integration]
+context_requirements+: [existing-contracts, layering-rules, error-taxonomy]
+dor_extra: [contracts (in/out) sketched before implementation]
+dod_extra: [error mapping consistent with project taxonomy]
+token_budget: M

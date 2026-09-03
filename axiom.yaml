@@ -1,0 +1,7 @@
+# AXIOM SDD framework manifest (framework side).
+# Consumer projects get their own sdd/sdd.yaml — see templates/project-sdd.yaml.
+axiom:
+  name: axiom-sdd
+  version: 2.0.0
+  role: framework      # framework = this repo. Consumers use sdd/sdd.yaml (role: consumer).
+  born_from: [template-sdd, sdd-setup]   # unified 2026-09 — docs/DECISIONS.md

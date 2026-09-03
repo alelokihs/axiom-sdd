@@ -1,0 +1,24 @@
+# {project} — SDD project
+
+This repository uses **Spec-Driven Development (SDD)**. Before acting, read in order:
+
+1. `sdd/sdd.yaml` — config, profile, runtime facts (if missing, run `SDD: init` first)
+2. `sdd/agents/README.md` — agent roster: roles, mandatory reading, allowed writes
+3. `sdd/constitution.md` — principles · `sdd/guardrails.md` — architecture invariants
+4. `sdd/specs/` — active work. **Never code without an explicitly authorized task.**
+
+## Locks
+{locks}
+
+## Working
+Assume the agent role the task names (file in `sdd/agents/`); its Mandatory Reading and
+Forbidden sections and `sdd/agents/capability-matrix.yaml` are binding.
+
+## Commands
+`SDD: init` · `SDD: spec <id>` · `SDD: implement <id> TASK-<n>[, ...]` · `SDD: review <id>` · `SDD: finish <id>`
+(VS Code: `/sdd-*` prompt files · Claude Code: `/sdd-*` commands · Codex: `sdd-*` skills)
+
+## Git & commits
+Follow `sdd/gitflow.md` (project-owned — the team may customize it). Detect which agentic
+runtime you are (Claude Code, Copilot, Codex, Devin) and sign commits with the trailer that
+file defines for your runtime. Never commit without an authorized task; never force-push.

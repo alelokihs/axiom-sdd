@@ -1,0 +1,12 @@
+profile: api-change
+summary: Add or change an exposed endpoint/contract.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+implementer_specialization: api
+test_modes: [contract, unit]
+context_requirements+: [existing-contracts, api-conventions, consumers-of-api]
+dor_extra: [breaking vs non-breaking is classified, consumers identified, versioning approach stated]
+dod_extra: [API docs/schema (OpenAPI or equivalent) coherent with implementation]
+evidence_expected+: [contract-diff, consumer-impact]
+token_budget: M

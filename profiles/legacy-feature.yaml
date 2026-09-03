@@ -1,0 +1,11 @@
+profile: legacy-feature
+summary: New capability inside an established codebase.
+extends: _defaults
+workflow: standard
+change_budget: bounded
+context_requirements+: [legacy-analysis, blast-radius, existing-contracts]
+dor_extra: [codebase-analyst legacy findings attached to the spec, blast radius understood]
+dod_extra: [existing behavior outside scope untouched (regression signal clean)]
+test_modes: [unit, regression]
+evidence_expected+: [blast-radius-check]
+token_budget: M

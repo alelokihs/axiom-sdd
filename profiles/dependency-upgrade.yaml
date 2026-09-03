@@ -1,0 +1,12 @@
+profile: dependency-upgrade
+summary: Bump libraries, frameworks or runtimes.
+extends: _defaults
+workflow: fast
+change_budget: bounded
+test_modes: [regression]
+agents+: [security]
+context_requirements: [active-spec, dependency-manifests, changelog-of-dependency]
+dor_extra: [breaking changes of the new version listed (from its changelog, not from memory)]
+dod_extra: [full test suite green, lockfile updated consistently, security advisories checked]
+evidence_expected+: [dependency-diff, advisory-check]
+token_budget: S

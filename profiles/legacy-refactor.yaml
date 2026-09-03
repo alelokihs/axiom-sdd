@@ -1,0 +1,15 @@
+profile: legacy-refactor
+summary: Restructure existing code with frozen observable behavior.
+extends: _defaults
+workflow: standard
+change_budget: minimal
+implementer_specialization: refactoring
+test_modes: [characterization, regression]
+agents+: [architect]
+gates+: [architecture-compliant]
+readiness_threshold: 85
+context_requirements+: [legacy-analysis, blast-radius, characterization-gap, refactoring-boundary]
+dor_extra: [characterization tests pin current behavior BEFORE any move, refactoring boundary written in spec]
+dod_extra: [zero observable behavior change (characterization suite green and unmodified)]
+evidence_expected+: [before-after-structure-map, regression-run]
+token_budget: L
