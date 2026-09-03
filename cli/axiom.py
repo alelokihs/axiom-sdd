@@ -221,9 +221,13 @@ def main() -> int:
     sub.add_parser("add-template", help="scaffolda um novo template").add_argument("name")
     sub.add_parser("list-profiles", help="lista os profiles disponiveis")
 
+    KNOWN = {"install", "doctor", "update", "remove", "add-tool", "add-profile",
+             "add-template", "list-profiles"}
     argv = sys.argv[1:]
     if not argv:                       # ./install.sh sem argumentos = install interativo
         argv = ["install"]
+    elif argv[0] not in KNOWN and argv[0] not in ("-h", "--help"):
+        argv = ["install"] + argv      # ./install.sh --target X = install --target X
     a = ap.parse_args(argv)
     registry = shims.load_registry()
 
