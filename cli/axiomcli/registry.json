@@ -230,28 +230,30 @@
   "commands": [
     {
       "id": "init",
-      "description": "Initialize SDD in this project (interactive)",
+      "description": "Initialize/complete SDD in this project (manifest-aware)",
       "inputs": [
         {
-          "name": "template",
-          "hint": "Path or URL of the template-sdd framework"
-        },
-        {
           "name": "source",
-          "hint": "Jira issue text or a short description of the change"
+          "hint": "Jira issue, spec id, or a short description (optional)"
         }
       ],
       "body": [
-        "Initialize SDD.",
-        "Framework: {template}",
-        "Source:",
-        "{source}",
+        "Initialize SDD in this project.",
+        "Source (optional): {source}",
         "",
-        "Before phase 1, CONFIRM with the user: (a) where to read the framework template,",
-        "(b) where to install (project root vs subdirectory), (c) which runtimes to generate",
-        "(default: detected by axiom-sdd doctor, see sdd/environment.json if present),",
-        "(d) git mode: stealth (.git/info/exclude, nothing committed) or team (committed).",
-        "Then follow the template's sdd/bootstrap/BOOTSTRAP.md phases exactly."
+        "PHASE 0 — read sdd/manifest.json FIRST.",
+        "If it EXISTS: the axiom-sdd installer already composed the framework — profile,",
+        "runtimes, git_mode and version are recorded there. Do NOT ask for a framework",
+        "path, do NOT change the git mode, do NOT reinstall anything. Your job is only to",
+        "fill what is still placeholder: project facts in sdd/sdd.yaml, real invariants in",
+        "sdd/guardrails.md, and confirm the ACTIVE spec under sdd/specs/ (use Source if",
+        "given, else the most recent spec directory).",
+        "If manifest.json does NOT exist: ask the user for the axiom-sdd framework location",
+        "and tell them to run its installer (./install.sh --target <this project>) — do not",
+        "hand-copy framework files yourself.",
+        "",
+        "Always CONFIRM with the user before writing; never overwrite non-placeholder",
+        "values; record open gaps as UNKNOWN / NEEDS_CONFIRMATION."
       ]
     },
     {
