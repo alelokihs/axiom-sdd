@@ -1,5 +1,9 @@
 # Axiom SDD
 
+> **2.1.0 preview:** [English article + Português](docs/articles/axiom-sdd-from-intent-to-evidence.md) · [Launch post](docs/launch/social-post-en-pt.md) · [Evidence metrics](docs/METRICS.md) · [Change review](https://github.com/alexandrehenrique-dev/axiom-sdd/pull/1)
+>
+> A repository-based contract for AI-assisted development: specifications, bounded tasks and reviewable evidence. Screenshots in the article show a consumer prototype, not an Axiom application UI.
+
 > **Spec-Driven Development para times que trabalham com IAs agenticas.**
 > Um comando, qualquer sistema operacional, zero dependencias: detecta seu projeto e suas
 > ferramentas de IA, compoe a metodologia certa e configura Copilot, Claude Code, Codex e

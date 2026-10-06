@@ -1,5 +1,11 @@
 # Changelog — axiom-sdd
 
+## 2.1.0 — 2026-10-06
+- Read-only `metrics` CLI for structured evidence observations; repeated proof does not reset progress age.
+- Explicit distinction between simulated checks and required real-flow evidence, skipped tests and verified delivery.
+- Preserve project-owned `sdd/profile.yaml` on update/reinstall; accurate copied-file reporting.
+- Standard-library regression tests and progress contract. No automatic release decisions or measured efficiency claims.
+
 ## 2.0.0 — 2026-09
 - **Projeto nasce da unificacao de `template-sdd` (metodologia) + `sdd-setup` (ambiente).**
 - Estrutura achatada: `core/ profiles/ workflows/ agents/ adapters/ templates/` na raiz;

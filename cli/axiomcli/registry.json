@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "_comment": "Declarative registry: tool -> detection signals -> shims. Adding an IDE/agent = adding an entry here (and a template if it needs a new shim kind). No code changes.",
   "tools": [
     {

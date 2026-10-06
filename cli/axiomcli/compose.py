@@ -105,10 +105,13 @@ def install(target: Path, profile_name: str, update: bool = False) -> dict:
 
     if prof:
         shutil.copy2(ROOT / "workflows" / f"{prof['workflow']}.yaml", sdd / "workflow.yaml")
-        if prof["name"] != "base":
+        copied.append("sdd/workflow.yaml")
+        # The resolved profile is a project-owned seed, including on reinstall.
+        if prof["name"] != "base" and not (sdd / "profile.yaml").exists():
             shutil.copy2(ROOT / "profiles" / f"{profile_name}.yaml", sdd / "profile.yaml")
+            copied.append("sdd/profile.yaml")
         shutil.copy2(ROOT / "profiles/_defaults.yaml", sdd / "profile-defaults.yaml")
-        copied += ["sdd/workflow.yaml", "sdd/profile.yaml", "sdd/profile-defaults.yaml"]
+        copied.append("sdd/profile-defaults.yaml")
 
     for d in ("specs", "decisions"):
         (sdd / d).mkdir(parents=True, exist_ok=True)
