@@ -15,6 +15,10 @@ Status: PENDING · IN_PROGRESS · BLOCKED · DONE
 ---
 
 ## TASK-001 — <name>
+- **Owner:** accountable agent/person.
+- **Next action:** executable authorized step.
+- **Blocker:** none, or dependency + owner + resolution needed.
+- **Evidence mode required:** simulated / real; record proof separately from status messages.
 - **Objective:** one sentence.
 - **Satisfies:** AC-01, AC-02
 - **Files:** `path/…`

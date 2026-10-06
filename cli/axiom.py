@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from axiomcli import compose, detect, doctor, gitexclude, scaffold, shims, ui  # noqa: E402
+from axiomcli import compose, detect, doctor, gitexclude, scaffold, shims, ui, metrics  # noqa: E402
 
 TEAM_MODE_PATTERNS = ["/CLAUDE.local.md", "/sdd/_tmp/", "/sdd/environment.json",
                       "/sdd/devin-playbook.md"]
@@ -216,12 +216,15 @@ def main() -> int:
     pi.add_argument("--yes", action="store_true", help="sem perguntas (CI): deteccao + defaults")
     for name in ("doctor", "update", "remove"):
         common(sub.add_parser(name))
+    pm = sub.add_parser("metrics", help="read-only declared evidence report (JSON)")
+    common(pm)
+    pm.add_argument("--stale-hours", type=float, default=24)
     sub.add_parser("add-tool", help="registra uma nova IA agentica (wizard)")
     sub.add_parser("add-profile", help="scaffolda um novo profile").add_argument("name")
     sub.add_parser("add-template", help="scaffolda um novo template").add_argument("name")
     sub.add_parser("list-profiles", help="lista os profiles disponiveis")
 
-    KNOWN = {"install", "doctor", "update", "remove", "add-tool", "add-profile",
+    KNOWN = {"metrics", "install", "doctor", "update", "remove", "add-tool", "add-profile",
              "add-template", "list-profiles"}
     argv = sys.argv[1:]
     if not argv:                       # ./install.sh sem argumentos = install interativo
@@ -231,6 +234,14 @@ def main() -> int:
     a = ap.parse_args(argv)
     registry = shims.load_registry()
 
+    if a.cmd == "metrics":
+        try:
+            result = metrics.report(Path(a.target).resolve(), stale_hours=a.stale_hours)
+        except ValueError:
+            print("erro: stale-hours must be finite and positive", file=sys.stderr)
+            return 2
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 2 if result["status"] == "invalid" else 0
     if a.cmd == "install":
         return cmd_install(a, registry)
     if a.cmd == "doctor":

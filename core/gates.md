@@ -9,7 +9,7 @@ gates apply. An agent that hits a failing gate stops and reports — it never ne
 | `plan-approved` | TASKS | PLAN reviewed by architect (full/standard workflows) or explicitly waived by the workflow | architect |
 | `definition-of-ready` | each task | [definition-of-ready.md](./definition-of-ready.md) satisfied | implementer (self-check) |
 | `architecture-compliant` | review completion | No guardrail violation, or violation covered by an approved decision | reviewer / architect |
-| `tests-passing` | review completion | Test suite green; every AC has ≥ 1 test (or an explicit recorded waiver) | test-engineer |
+| `tests-passing` | review completion | Required tests executed and passed (skips are unproven); every AC has ≥ 1 test (or an explicit recorded waiver) | test-engineer |
 | `security-clear` | completion | Security review done when profile requires; no open high-severity finding | security |
 | `acceptance-criteria` | completion | Every AC mapped to verifiable proof | reviewer |
 | `spec-drift-none` | completion | Drift check returns `SPEC_DRIFT_NONE` — [spec-drift.md](./spec-drift.md) | reviewer |
@@ -26,3 +26,11 @@ gates apply. An agent that hits a failing gate stops and reports — it never ne
 ```
 
 A failed gate is a routing event, not an error to hide.
+
+## Evidence mode and independent work
+
+Simulated checks cannot satisfy an AC explicitly requiring a real provider or browser flow.
+Code on disk does not prove the running environment was updated. Report those facts separately.
+Block only the dependent step; continue independent authorized work within its existing budget.
+Use [progress.md](./progress.md) to track evidence age and route blockers. No metrics report grants
+new permissions, proves execution by itself, or replaces human release approval.
